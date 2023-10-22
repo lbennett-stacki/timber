@@ -17,6 +17,7 @@
     "lint": "eslint --fix ./src",
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
+    "release": "pnpm build && changeset publish",
     "test": "jest"
   },
   "license": "UNLICENSED",
