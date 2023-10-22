@@ -1,0 +1,8 @@
+{
+  "teamName": "Porter",
+  "githubUserNames": ["lbennett-stacki"],
+  "githubSlackUserMapper": {
+    "lbennett-stacki": "U04M3DNG5FG"
+  },
+  "remindAfter": 12
+}

@@ -1,0 +1,36 @@
+name: Release Docs
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: mdrxtech/actions/pnpm-setup@pnpm-setup_v0.1.2
+        with:
+          npmToken: ${{ secrets.NPM_PUBLISHING_TOKEN }}
+          install: true
+          nodeVersion: 18.17.1
+          pnpmVersion: 8.1.1
+
+      - name: Build Docs
+        run: |
+          cd docs
+          pnpm build
+
+      - name: Publish Docs to GH Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/build
