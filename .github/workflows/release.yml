@@ -21,8 +21,8 @@ jobs:
         with:
           npmToken: ${{ secrets.NPM_PUBLISHING_TOKEN }}
           install: true
-          nodeVersion: 18.17.1
-          pnpmVersion: 8.1.1
+          nodeVersion: 18.18.0
+          pnpmVersion: 8.8.0
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets

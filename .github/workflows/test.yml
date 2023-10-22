@@ -7,30 +7,9 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  changes:
-    runs-on: ubuntu-latest
-    outputs:
-      src: ${{ steps.filter.outputs.src }}
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          base: "main"
-          filters: |
-            src:
-              - 'packages/core/tsconfig.json'
-              - 'pnpm-lock.yaml'
-              - 'packages/core/src/**'
-              - 'packages/packages/src/**'
-              - '.github/workflows/test.yml'
-
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: changes
-    if: ${{ needs.changes.outputs.src == 'true' }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -40,8 +19,8 @@ jobs:
         with:
           npmToken: ${{ secrets.PRIVATE_NPM_REGISTRY_ACCESS_TOKEN }}
           install: true
-          nodeVersion: 18.16.1
-          pnpmVersion: 8.1.1
+          nodeVersion: 18.18.0
+          pnpmVersion: 8.8.0
 
       - name: Lint
         run: pnpm lint
