@@ -1,4 +1,5 @@
 import chalk, { type Color } from "chalk";
+import superjson from "superjson";
 
 export type LogTypes = "log" | "warn" | "error";
 
@@ -37,9 +38,17 @@ export abstract class Printer {
     this.console[fn](
       ...stylize(
         formattedTitle,
-        ...rest.map((item) => JSON.stringify(item, null, 2)),
+        ...rest.map((item) => this.strongify(item)),
       ),
     );
+  }
+
+  private strongify(input: unknown) {
+    try {
+      return JSON.stringify(input, null, 2);
+    } catch (error) {
+      return superjson.stringify(input);
+    }
   }
 
   private formatParts(fn: LogTypes, args: Message[]) {

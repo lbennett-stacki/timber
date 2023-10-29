@@ -7,15 +7,13 @@ export interface Console {
   warn(...args: Message[]): void;
 }
 
-function facadify(...methods: string[]) {
-  return (ctor: any) => {
-    console.log("constructor", ctor, methods);
+// function facadify(...methods: string[]) {
+//   return (ctor: any) => {
+//     return ctor;
+//   };
+// }
 
-    return ctor;
-  };
-}
-
-@facadify("log", "error", "warn")
+// @facadify("log", "error", "warn")
 export class Logger extends Printer implements Console {
   static log(...args: Message[]) {
     const logger = new Logger();
