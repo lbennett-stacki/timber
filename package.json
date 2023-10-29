@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "tsup",
+    "build": "tsup && tsup --config tsup.esm.config.ts",
     "build:tsc": "tsc",
     "dev": "pnpm build --watch",
     "dev:tsc": "pnpm build:tsc --watch",
@@ -32,13 +32,13 @@
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "rimraf": "^5.0.0",
-    "superjson": "^2.2.0",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4"
   },
   "dependencies": {
     "chalk": "^4.1.2",
-    "cli-progress": "^3.12.0"
+    "cli-progress": "^3.12.0",
+    "superjson": "^2.2.0"
   },
   "gitHead": "5bd2ddee2dae86ccd30513331e9a675eed90bc16"
 }

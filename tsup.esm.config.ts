@@ -2,8 +2,7 @@ import { Options, defineConfig } from "tsup";
 
 export const config: Options = {
   entry: ["src/index.ts"],
-  format: ["cjs"],
-  noExternal: ["superjson"],
+  format: ["esm"],
   splitting: true,
   sourcemap: true,
   clean: false,
