@@ -36,10 +36,7 @@ export abstract class Printer {
     const [formattedTitle, ...rest] = this.formatParts(fn, args);
     const stylize = this.createStyler(fn);
     this.console[fn](
-      ...stylize(
-        formattedTitle,
-        ...rest.map((item) => this.strongify(item)),
-      ),
+      ...stylize(formattedTitle, ...rest.map((item) => this.strongify(item))),
     );
   }
 
@@ -47,7 +44,11 @@ export abstract class Printer {
     try {
       return JSON.stringify(input, null, 2);
     } catch (error) {
-      return superjson.stringify(input);
+      try {
+        return superjson.stringify(input);
+      } catch (superjsonError) {
+        return "🪵";
+      }
     }
   }
 
