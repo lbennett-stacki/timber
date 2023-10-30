@@ -24,33 +24,46 @@ export interface Console {
 
 const jsConsole: Console = console;
 
+const TRUNCATED = "░--TRUNCATED--░";
+
 export abstract class Printer {
   constructor(
     protected readonly namespace: string = "Logger",
     protected readonly console: Console = jsConsole,
     protected readonly palette: Palette = defaultPalette(),
     private readonly isBrowser = typeof window === "object",
-    protected readonly config = { maxPartLength = 100 },
+    protected readonly config = { maxPartLength: 100, maxPartLines: 5 },
   ) {}
 
   protected print(fn: LogTypes, args: Message[]): void {
     const [formattedTitle, ...rest] = this.formatParts(fn, args);
     const stylize = this.createStyler(fn);
     this.console[fn](
-      ...stylize(formattedTitle, ...rest.map((item) => this.parseComplex(item))),
+      ...stylize(
+        formattedTitle,
+        ...rest.map((item) => this.parseComplex(item)),
+      ),
     );
   }
 
   private parseComplex(item: Message): string {
     let result = this.strongify(item);
-    const replacement = "░--TRUNCATED--░";
+
     if (result.length > this.config.maxPartLength) {
       result =
-        result.slice(0, this.config.maxPartLength + replacement.length) +
-        replacement;
+        result.slice(0, this.config.maxPartLength + TRUNCATED.length) +
+        TRUNCATED;
     }
 
-    return result
+    const lines = result.split(/\n/);
+    if (lines.length > this.config.maxPartLines) {
+      result = [
+        ...lines.slice(0, this.config.maxPartLines - 1),
+        TRUNCATED,
+      ].join("\n");
+    }
+
+    return result;
   }
 
   private strongify(input: unknown) {
