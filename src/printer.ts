@@ -30,14 +30,27 @@ export abstract class Printer {
     protected readonly console: Console = jsConsole,
     protected readonly palette: Palette = defaultPalette(),
     private readonly isBrowser = typeof window === "object",
+    protected readonly config = { maxPartLength = 100 },
   ) {}
 
   protected print(fn: LogTypes, args: Message[]): void {
     const [formattedTitle, ...rest] = this.formatParts(fn, args);
     const stylize = this.createStyler(fn);
     this.console[fn](
-      ...stylize(formattedTitle, ...rest.map((item) => this.strongify(item))),
+      ...stylize(formattedTitle, ...rest.map((item) => this.parseComplex(item))),
     );
+  }
+
+  private parseComplex(item: Message): string {
+    let result = this.strongify(item);
+    const replacement = "░--TRUNCATED--░";
+    if (result.length > this.config.maxPartLength) {
+      result =
+        result.slice(0, this.config.maxPartLength + replacement.length) +
+        replacement;
+    }
+
+    return result
   }
 
   private strongify(input: unknown) {
