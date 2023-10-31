@@ -1,6 +1,6 @@
 {
   "name": "@mdrxtech/timber",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "MDRxTech's logging library",
   "source": "src/index.ts",
   "main": "dist/index.js",
