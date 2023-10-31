@@ -26,13 +26,15 @@ const jsConsole: Console = console;
 
 const TRUNCATED = "░--TRUNCATED--░";
 
+const isDev = process.env.NODE_ENV === 'development'
+
 export abstract class Printer {
   constructor(
     protected readonly namespace: string = "Logger",
     protected readonly console: Console = jsConsole,
     protected readonly palette: Palette = defaultPalette(),
     private readonly isBrowser = typeof window === "object",
-    protected readonly config = { maxPartLength: 100, maxPartLines: 5 },
+    protected readonly config = { maxPartLength: isDev ? 100 : 2000, maxPartLines: isDev ? 5 : 100 },
   ) {}
 
   protected print(fn: LogTypes, args: Message[]): void {
