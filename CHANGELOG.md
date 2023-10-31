@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.5
+
+### Patch Changes
+
+- 9a076c4: Fix nullish strongify
+
 ## 1.3.4
 
 ### Patch Changes
