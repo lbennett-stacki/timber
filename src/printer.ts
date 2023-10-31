@@ -68,16 +68,19 @@ export abstract class Printer {
     return result;
   }
 
-  private strongify(input: unknown) {
+  private strongify(input: unknown): string {
+    let result: string | null;
     try {
-      return JSON.stringify(input, null, 2);
+      result = JSON.stringify(input, null, 2);
     } catch (error) {
       try {
-        return superjson.stringify(input);
+        result = superjson.stringify(input);
       } catch (superjsonError) {
         return "🪵";
       }
     }
+
+    return result ?? ''
   }
 
   private formatParts(fn: LogTypes, args: Message[]) {
