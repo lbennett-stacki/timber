@@ -34,7 +34,7 @@ export abstract class Printer {
     protected readonly console: Console = jsConsole,
     protected readonly palette: Palette = defaultPalette(),
     private readonly isBrowser = typeof window === "object",
-    protected readonly config = { maxPartLength: isDev ? 100 : 2000, maxPartLines: isDev ? 5 : 100 },
+    protected readonly config = { maxPartLength: isDev ? 1000 : 50000, maxPartLines: isDev ? 100 : 5000 },
   ) {}
 
   protected print(fn: LogTypes, args: Message[]): void {
