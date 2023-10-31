@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.4
+
+### Patch Changes
+
+- 469a8c6: Less strict truncation for prod
+
 ## 1.3.3
 
 ### Patch Changes
