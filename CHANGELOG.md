@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.6
+
+### Patch Changes
+
+- 6692ce3: Extend/reduce truncation one of them....
+
 ## 1.3.5
 
 ### Patch Changes
