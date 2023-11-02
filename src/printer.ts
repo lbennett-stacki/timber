@@ -15,7 +15,7 @@ export const defaultPalette = (): Palette => {
   };
 };
 
-export type Message = string | number | object | undefined | null;
+export type Message = string | number | object | bigint | boolean | undefined | null;
 export interface Console {
   log(...args: Message[]): void;
   error(...args: Message[]): void;
