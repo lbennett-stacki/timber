@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.7
+
+### Patch Changes
+
+- 061e3e9: add bigint and boolean Message types
+
 ## 1.3.6
 
 ### Patch Changes
