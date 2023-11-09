@@ -1,5 +1,13 @@
 # @mdrxtech/timber
 
+## 1.3.8
+
+### Patch Changes
+
+- 965b60c: Allow bigint message
+- 5fc2bfe: Improve .thrown, only accept 1 error/message
+- 5b61626: Allow boolean message
+
 ## 1.3.7
 
 ### Patch Changes
