@@ -1,6 +1,6 @@
 import { Printer } from "./printer";
 
-export type Message = string | number | object | bigint | undefined | null;
+export type Message = string | number | object | bigint | boolean | undefined | null;
 export interface Console {
   log(...args: Message[]): void;
   error(...args: Message[]): void;
