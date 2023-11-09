@@ -42,9 +42,9 @@ export class Logger extends Printer implements Console {
     this.print("warn", args);
   }
 
-  thrown(error: Error | string, ...args: Message[]): Error {
+  thrown(error: Error | string): Error {
     const err = typeof error === "string" ? new Error(error) : error;
-    this.error(err, ...args);
+    this.error(err);
     return err;
   }
 
