@@ -34,7 +34,7 @@ export abstract class Printer {
     },
   ) {}
 
-  protected print<T>(fn: LogTypes, args: Message<T>[]): void {
+  protected print<T extends unknown[]>(fn: LogTypes, args: T): void {
     const [formattedTitle, ...rest] = this.formatParts(fn, args);
     const stylize = this.createStyler(fn);
     this.console[fn](
@@ -45,7 +45,7 @@ export abstract class Printer {
     );
   }
 
-  private parseComplex<T>(item: Message<T>): string {
+  private parseComplex<T>(item: T): string {
     let result = this.strongify(item);
 
     if (result.length > this.config.maxPartLength) {
@@ -80,7 +80,7 @@ export abstract class Printer {
     return result ?? "";
   }
 
-  private formatParts<T>(fn: LogTypes, args: Message<T>[]) {
+  private formatParts<T extends unknown[]>(fn: LogTypes, args: T) {
     const rest = [...args];
     const title = rest.shift();
     const parts = [this.isBrowser && "%c", this.getIcon(fn), this.namespace];
