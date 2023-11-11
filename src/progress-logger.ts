@@ -17,7 +17,7 @@ export class ProgressLogger extends Logger {
   > = {};
 
   static progress(id: string, value: number, total?: number) {
-    const logger = new ProgressLogger();
+    const logger = new ProgressLogger(id);
     return logger.progress(id, value, total);
   }
 

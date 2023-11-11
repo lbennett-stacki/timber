@@ -22,13 +22,18 @@ const TRUNCATED = "░--TRUNCATED--░";
 
 const isDev = process.env.NODE_ENV === "development";
 
+export interface TruncateOptions {
+  maxPartLength?: number;
+  maxPartLines?: number;
+}
+
 export abstract class Printer {
   constructor(
-    protected readonly namespace: string = "Logger",
+    protected readonly namespace: string,
     protected readonly console: Console = jsConsole,
     protected readonly palette: Palette = defaultPalette(),
-    private readonly isBrowser = typeof window === "object",
-    protected readonly config = {
+    protected readonly isBrowser = typeof window === "object",
+    protected readonly truncateOptions: TruncateOptions = {
       maxPartLength: isDev ? 1000 : 50000,
       maxPartLines: isDev ? 100 : 5000,
     },
@@ -48,16 +53,19 @@ export abstract class Printer {
   private parseComplex<T>(item: T): string {
     let result = this.strongify(item);
 
-    if (result.length > this.config.maxPartLength) {
+    const maxLength = this.truncateOptions.maxPartLength ?? Infinity;
+    const maxLines = this.truncateOptions.maxPartLines ?? Infinity;
+
+    if (result.length > ( maxLength )) {
       result =
-        result.slice(0, this.config.maxPartLength + TRUNCATED.length) +
+        result.slice(0, ( maxLength ) + TRUNCATED.length) +
         TRUNCATED;
     }
 
     const lines = result.split(/\n/);
-    if (lines.length > this.config.maxPartLines) {
+    if (lines.length > maxLines) {
       result = [
-        ...lines.slice(0, this.config.maxPartLines - 1),
+        ...lines.slice(0, maxLines - 1),
         TRUNCATED,
       ].join("\n");
     }

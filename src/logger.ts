@@ -1,4 +1,5 @@
-import { Printer } from "./printer";
+import deepmerge from "deepmerge";
+import { Palette, Printer, TruncateOptions } from "./printer";
 
 export type Message<T> = T | undefined | null;
 export type Messages<T> = Message<T>[];
@@ -9,32 +10,72 @@ export interface Console {
   warn<T extends unknown[]>(...args: T): void;
 }
 
+export interface HookOptions {
+  onLog?: <T extends unknown[]>(...args: T) => void;
+  onWarn?: <T extends unknown[]>(...args: T) => void;
+  onError?: <T extends unknown[]>(...args: T) => void;
+}
+
 export class Logger extends Printer implements Console {
-  static log<T extends unknown[]>(...args: T) {
-    const logger = new Logger();
-    return logger.log(...args);
+  constructor(
+    namespace: string,
+    protected readonly hookOptions?: HookOptions,
+    truncateOptions?: TruncateOptions,
+    console?: Console,
+    palette?: Palette,
+    isBrowser?: boolean,
+  ) {
+    super(namespace, console, palette, isBrowser, truncateOptions);
   }
 
-  static error<T extends unknown[]>(...args: T) {
-    const logger = new Logger();
-    return logger.error(...args);
+  scope(scope: string): Logger {
+    return new Logger(
+      `${this.namespace}:${scope}`,
+      this.hookOptions,
+      this.truncateOptions,
+      this.console,
+      this.palette,
+      this.isBrowser,
+    );
   }
 
-  static warn<T extends unknown[]>(...args: T) {
-    const logger = new Logger();
-    return logger.warn(...args);
+  merge(logger?: Logger): Logger {
+    if (!logger) {
+      return this;
+    }
+
+    return new Logger(
+      `${this.namespace}:${logger.namespace}`,
+      deepmerge(this.hookOptions ?? {}, logger.hookOptions ?? {}),
+      deepmerge(this.truncateOptions, logger.truncateOptions),
+      this.console || logger.console,
+      deepmerge(this.palette, logger.palette),
+      this.isBrowser || logger.isBrowser,
+    );
+
+    // return new Logger(
+    //   `${this.namespace}:${logger.namespace}`,
+    //   { ...this.hookOptions, ...logger.hookOptions },
+    //   {...this.truncateOptions, ...logger.truncateOptions},
+    //   ( this.console  || logger.console),
+    //   { ...this.palette, ...logger.palette },
+    //   this.isBrowser || logger.isBrowser,
+    // );
   }
 
   log<T extends unknown[]>(...args: T): void {
+    this.hookOptions?.onLog?.(...args);
     this.print("log", args);
   }
 
-  error<T extends unknown[]>(...args: T): void {
-    this.print("error", args);
+  warn<T extends unknown[]>(...args: T): void {
+    this.hookOptions?.onWarn?.(...args);
+    this.print("warn", args);
   }
 
-  warn<T extends unknown[]>(...args: T): void {
-    this.print("warn", args);
+  error<T extends unknown[]>(...args: T): void {
+    this.hookOptions?.onError?.(...args);
+    this.print("error", args);
   }
 
   thrown<E extends Error | string>(error: E): E extends string ? Error : E {
@@ -43,9 +84,5 @@ export class Logger extends Printer implements Console {
     ) as E extends string ? Error : E;
     this.error(err);
     return err;
-  }
-
-  scope(scope: string): Logger {
-    return new Logger(`${this.namespace}:${scope}`, this.console, this.palette);
   }
 }
