@@ -1,5 +1,6 @@
 import chalk, { type Color } from "chalk";
 import superjson from "superjson";
+import { Console, Message } from "./logger";
 
 export type LogTypes = "log" | "warn" | "error";
 
@@ -15,18 +16,11 @@ export const defaultPalette = (): Palette => {
   };
 };
 
-export type Message = string | number | object | bigint | boolean | undefined | null;
-export interface Console {
-  log(...args: Message[]): void;
-  error(...args: Message[]): void;
-  warn(...args: Message[]): void;
-}
-
 const jsConsole: Console = console;
 
 const TRUNCATED = "░--TRUNCATED--░";
 
-const isDev = process.env.NODE_ENV === 'development'
+const isDev = process.env.NODE_ENV === "development";
 
 export abstract class Printer {
   constructor(
@@ -34,10 +28,13 @@ export abstract class Printer {
     protected readonly console: Console = jsConsole,
     protected readonly palette: Palette = defaultPalette(),
     private readonly isBrowser = typeof window === "object",
-    protected readonly config = { maxPartLength: isDev ? 1000 : 50000, maxPartLines: isDev ? 100 : 5000 },
+    protected readonly config = {
+      maxPartLength: isDev ? 1000 : 50000,
+      maxPartLines: isDev ? 100 : 5000,
+    },
   ) {}
 
-  protected print(fn: LogTypes, args: Message[]): void {
+  protected print<T>(fn: LogTypes, args: Message<T>[]): void {
     const [formattedTitle, ...rest] = this.formatParts(fn, args);
     const stylize = this.createStyler(fn);
     this.console[fn](
@@ -48,7 +45,7 @@ export abstract class Printer {
     );
   }
 
-  private parseComplex(item: Message): string {
+  private parseComplex<T>(item: Message<T>): string {
     let result = this.strongify(item);
 
     if (result.length > this.config.maxPartLength) {
@@ -80,10 +77,10 @@ export abstract class Printer {
       }
     }
 
-    return result ?? ''
+    return result ?? "";
   }
 
-  private formatParts(fn: LogTypes, args: Message[]) {
+  private formatParts<T>(fn: LogTypes, args: Message<T>[]) {
     const rest = [...args];
     const title = rest.shift();
     const parts = [this.isBrowser && "%c", this.getIcon(fn), this.namespace];
@@ -101,9 +98,9 @@ export abstract class Printer {
     return input.charAt(0).toUpperCase() + input.slice(1);
   }
 
-  private createStyler(fn: LogTypes): (...args: Message[]) => Message[] {
+  private createStyler(fn: LogTypes) {
     if (this.isBrowser) {
-      return (...args: Message[]) => {
+      return <T>(...args: Message<T>[]) => {
         return [
           `
       background-color: ${this.palette[fn].background}; 
@@ -115,7 +112,7 @@ export abstract class Printer {
         ];
       };
     } else {
-      return (...args: Message[]) => {
+      return <T>(...args: Message<T>[]) => {
         return [
           chalk[this.palette[fn].text][
             `bg${this.capitalize(this.palette[fn].background)}` as typeof Color

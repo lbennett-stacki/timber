@@ -1,49 +1,46 @@
 import { Printer } from "./printer";
 
-export type Message = string | number | object | bigint | boolean | undefined | null;
+export type Message<T> = T | undefined | null;
+export type Messages<T> = Message<T>[];
+
 export interface Console {
-  log(...args: Message[]): void;
-  error(...args: Message[]): void;
-  warn(...args: Message[]): void;
+  log<T>(...args: Messages<T>): void;
+  error<T>(...args: Messages<T>): void;
+  warn<T>(...args: Messages<T>): void;
 }
 
-// function facadify(...methods: string[]) {
-//   return (ctor: any) => {
-//     return ctor;
-//   };
-// }
-
-// @facadify("log", "error", "warn")
 export class Logger extends Printer implements Console {
-  static log(...args: Message[]) {
+  static log<T>(...args: Message<T>[]) {
     const logger = new Logger();
     return logger.log(...args);
   }
 
-  static error(...args: Message[]) {
+  static error<T>(...args: Message<T>[]) {
     const logger = new Logger();
     return logger.error(...args);
   }
 
-  static warn(...args: Message[]) {
+  static warn<T>(...args: Messages<T>) {
     const logger = new Logger();
     return logger.warn(...args);
   }
 
-  log(...args: Message[]): void {
+  log<T>(...args: Message<T>[]): void {
     this.print("log", args);
   }
 
-  error(...args: Message[]): void {
+  error<T>(...args: Message<T>[]): void {
     this.print("error", args);
   }
 
-  warn(...args: Message[]): void {
+  warn<T>(...args: Message<T>[]): void {
     this.print("warn", args);
   }
 
-  thrown(error: Error | string): Error {
-    const err = typeof error === "string" ? new Error(error) : error;
+  thrown<E extends Error | string>(error: E): E extends string ? Error : E {
+    const err = (
+      typeof error === "string" ? new Error(error) : error
+    ) as E extends string ? Error : E;
     this.error(err);
     return err;
   }
