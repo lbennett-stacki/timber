@@ -2,7 +2,7 @@ import chalk, { type Color } from "chalk";
 import superjson from "superjson";
 import { Console, Message } from "./logger";
 
-export type LogTypes = "log" | "warn" | "error";
+export type LogTypes = "log" | "warn" | "error" | "debug";
 
 export type Palette = {
   [key in LogTypes]: { text: typeof Color; background: typeof Color };
@@ -13,6 +13,7 @@ export const defaultPalette = (): Palette => {
     log: { text: "white", background: "blue" },
     warn: { text: "black", background: "yellow" },
     error: { text: "white", background: "red" },
+    debug: { text: "white", background: "green" },
   };
 };
 
@@ -42,12 +43,18 @@ export abstract class Printer {
   protected print<T extends unknown[]>(fn: LogTypes, args: T): void {
     const [formattedTitle, ...rest] = this.formatParts(fn, args);
     const stylize = this.createStyler(fn);
-    this.console[fn](
+    const consoleFn = this.getConsoleFn(fn);
+
+    this.console[consoleFn](
       ...stylize(
         formattedTitle,
         ...rest.map((item) => this.parseComplex(item)),
       ),
     );
+  }
+
+  private getConsoleFn(fn: LogTypes): Exclude<LogTypes, "debug"> {
+    return fn === "debug" ? "log" : fn;
   }
 
   private parseComplex<T>(item: T): string {
@@ -56,18 +63,13 @@ export abstract class Printer {
     const maxLength = this.truncateOptions.maxPartLength ?? Infinity;
     const maxLines = this.truncateOptions.maxPartLines ?? Infinity;
 
-    if (result.length > ( maxLength )) {
-      result =
-        result.slice(0, ( maxLength ) + TRUNCATED.length) +
-        TRUNCATED;
+    if (result.length > maxLength) {
+      result = result.slice(0, maxLength + TRUNCATED.length) + TRUNCATED;
     }
 
     const lines = result.split(/\n/);
     if (lines.length > maxLines) {
-      result = [
-        ...lines.slice(0, maxLines - 1),
-        TRUNCATED,
-      ].join("\n");
+      result = [...lines.slice(0, maxLines - 1), TRUNCATED].join("\n");
     }
 
     return result;
@@ -91,13 +93,17 @@ export abstract class Printer {
   private formatParts<T extends unknown[]>(fn: LogTypes, args: T) {
     const rest = [...args];
     const title = rest.shift();
-    const parts = [this.isBrowser && "%c", this.getIcon(fn), this.namespace];
+    const parts = [this.getIcon(fn), this.namespace];
     if (typeof title === "string") {
       parts.push(`| ${title}`);
     } else {
       rest.push(title);
     }
-    this.isBrowser && parts.push("%O");
+
+    if (this.isBrowser) {
+      parts.unshift("%c");
+      parts.push("%O");
+    }
 
     return [parts.join(" "), ...rest];
   }

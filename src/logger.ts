@@ -63,26 +63,33 @@ export class Logger extends Printer implements Console {
     // );
   }
 
+  debug<T extends unknown[]>(...args: T): void {
+    this.hookOptions?.onLog?.(...args);
+    this.print<T>("debug", args);
+  }
+
   log<T extends unknown[]>(...args: T): void {
     this.hookOptions?.onLog?.(...args);
-    this.print("log", args);
+    this.print<T>("log", args);
   }
 
   warn<T extends unknown[]>(...args: T): void {
     this.hookOptions?.onWarn?.(...args);
-    this.print("warn", args);
+    this.print<T>("warn", args);
   }
 
   error<T extends unknown[]>(...args: T): void {
     this.hookOptions?.onError?.(...args);
-    this.print("error", args);
+    this.print<T>("error", args);
   }
 
   thrown<E extends Error | string>(error: E): E extends string ? Error : E {
     const err = (
       typeof error === "string" ? new Error(error) : error
     ) as E extends string ? Error : E;
+
     this.error(err);
+
     return err;
   }
 }
