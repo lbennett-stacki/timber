@@ -1,5 +1,13 @@
 # @mdrxtech/timber
 
+## 1.3.9
+
+### Patch Changes
+
+- 76ac194: feat: deepmerge configs/options
+- 33e56b5: feat: add debug log style
+- 8e9b1ea: Wider log message types
+
 ## 1.3.8
 
 ### Patch Changes
