@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.10
+
+### Patch Changes
+
+- ee36bef: Split CLI logger
+
 ## 1.3.9
 
 ### Patch Changes
