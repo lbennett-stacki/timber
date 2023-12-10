@@ -1,11 +1,11 @@
-import chalk, { type Color } from "chalk";
+import chalk, { ColorName } from "chalk";
 import superjson from "superjson";
 import { Console, Message } from "./logger";
 
 export type LogTypes = "log" | "warn" | "error" | "debug";
 
 export type Palette = {
-  [key in LogTypes]: { text: typeof Color; background: typeof Color };
+  [key in LogTypes]: { text: ColorName; background: ColorName };
 };
 
 export const defaultPalette = (): Palette => {
@@ -129,7 +129,7 @@ export abstract class Printer {
       return <T>(...args: Message<T>[]) => {
         return [
           chalk[this.palette[fn].text][
-            `bg${this.capitalize(this.palette[fn].background)}` as typeof Color
+            `bg${this.capitalize(this.palette[fn].background)}` as ColorName
           ](...args),
         ];
       };
