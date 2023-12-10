@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.11
+
+### Patch Changes
+
+- 1f37e78: Chalk ESM
+
 ## 1.3.10
 
 ### Patch Changes
