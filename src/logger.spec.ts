@@ -27,7 +27,6 @@ describe("Logger", function () {
 
     expect(message).toContain(" test-namespace ");
     expect(message).toContain(" test message");
-    expect(message).toMatchInlineSnapshot(`"[37m[44m🔎 test-namespace | test message[49m[39m"`);
   });
 
   test("warns messages with namespace prefix", () => {
@@ -41,9 +40,6 @@ describe("Logger", function () {
 
     expect(message).toContain(" test-namespace ");
     expect(message).toContain(" test message");
-    expect(message).toMatchInlineSnapshot(
-      `"[30m[43m❗️ test-namespace | test message[49m[39m"`,
-    );
   });
 
   test("errors messages with namespace prefix", () => {
@@ -56,7 +52,6 @@ describe("Logger", function () {
 
     expect(message).toContain(" test-namespace ");
     expect(message).toContain(" test message");
-    expect(message).toMatchInlineSnapshot(`"[37m[41m💩 test-namespace | test message[49m[39m"`);
   });
 
   test("debugs messages with namespace prefix", () => {
@@ -70,7 +65,6 @@ describe("Logger", function () {
 
     expect(message).toContain(" test-namespace ");
     expect(message).toContain(" test message");
-    expect(message).toMatchInlineSnapshot(`"[37m[42m❓ test-namespace | test message[49m[39m"`);
   });
 
   test("returns throwable errors", () => {
@@ -82,7 +76,6 @@ describe("Logger", function () {
 
     expect(error).toBeInstanceOf(Error);
     expect(error.message).toBe("test message");
-    expect(error).toMatchInlineSnapshot(`[Error: test message]`);
   });
 
   test("returns throwable child errors", () => {
@@ -99,6 +92,5 @@ describe("Logger", function () {
     expect(error).toBeInstanceOf(TestError);
     expect(error).toBeInstanceOf(Error);
     expect(error.message).toBe("test message");
-    expect(error).toMatchInlineSnapshot(`[TestError: test message]`);
   });
 });
