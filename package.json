@@ -11,9 +11,9 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "tsup && tsup --config tsup.esm.config.ts",
+    "build": "vite build",
     "build:tsc": "tsc",
-    "dev": "pnpm build --watch",
+    "dev": "vite",
     "dev:tsc": "pnpm build:tsc --watch",
     "lint": "eslint --fix ./src",
     "type-check": "tsc --noEmit",
@@ -34,6 +34,9 @@
     "rimraf": "^5.0.0",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4",
+    "vite": "^5.0.7",
+    "vite-bundle-visualizer": "^0.11.0",
+    "vite-plugin-dts": "^3.6.4",
     "vitest": "^1.0.4"
   },
   "dependencies": {
