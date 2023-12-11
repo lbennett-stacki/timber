@@ -4,8 +4,8 @@
   "description": "MDRxTech's logging library",
   "source": "src/index.ts",
   "type": "module",
-  "main": "dist/timber.umd.js",
-  "module": "dist/timber.mjs",
+  "main": "dist/timber.umd.cjs",
+  "module": "dist/timber.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
