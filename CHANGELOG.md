@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.13
+
+### Patch Changes
+
+- 5b6aebf: Correct package exports
+
 ## 1.3.12
 
 ### Patch Changes
