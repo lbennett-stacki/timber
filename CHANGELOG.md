@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.12
+
+### Patch Changes
+
+- 6e4da1a: Vite build
+
 ## 1.3.11
 
 ### Patch Changes
