@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.14
+
+### Patch Changes
+
+- 09c7771: Remove type module
+
 ## 1.3.13
 
 ### Patch Changes
