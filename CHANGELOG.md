@@ -1,5 +1,12 @@
 # @mdrxtech/timber
 
+## 1.3.16
+
+### Patch Changes
+
+- 127c1e3: browser and node builds
+- d369d64: Merge browser and node builds
+
 ## 1.3.15
 
 ### Patch Changes
