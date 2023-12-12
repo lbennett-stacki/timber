@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.15
+
+### Patch Changes
+
+- dd4fc4c: Correct exports
+
 ## 1.3.14
 
 ### Patch Changes
