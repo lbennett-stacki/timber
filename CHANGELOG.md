@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.17
+
+### Patch Changes
+
+- b1b239f: Fix JS exports
+
 ## 1.3.16
 
 ### Patch Changes
