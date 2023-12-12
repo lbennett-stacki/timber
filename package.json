@@ -45,8 +45,5 @@
     "vite-plugin-dts": "^3.6.4",
     "vitest": "^1.0.4"
   },
-  "dependencies": {
-    "superjson": "^2.2.0"
-  },
   "gitHead": "5bd2ddee2dae86ccd30513331e9a675eed90bc16"
 }

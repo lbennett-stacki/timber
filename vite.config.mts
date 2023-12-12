@@ -10,14 +10,6 @@ export default defineConfig({
       name: "Timber",
       fileName: "timber",
     },
-    rollupOptions: {
-      external: ["superjson"],
-      output: {
-        globals: {
-          superjson: "superjson",
-        },
-      },
-    },
   },
   plugins: [dts()],
 });
