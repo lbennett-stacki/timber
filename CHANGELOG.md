@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.18
+
+### Patch Changes
+
+- 416e4ab: Fix package.json exports
+
 ## 1.3.17
 
 ### Patch Changes
