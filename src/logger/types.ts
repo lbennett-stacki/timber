@@ -1,4 +1,4 @@
-import { Palette, PrinterOptions, TruncateOptions } from "../printer/types";
+import { PrinterOptions } from "../printer/types";
 
 export type Message<T> = T | undefined | null;
 export type Messages<T> = Message<T>[];
