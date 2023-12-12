@@ -1,5 +1,11 @@
 # @mdrxtech/timber
 
+## 1.3.19
+
+### Patch Changes
+
+- f814fcc: Remove superjson
+
 ## 1.3.18
 
 ### Patch Changes
