@@ -19,7 +19,7 @@ describe("Logger", function () {
   test("logs messages with namespace prefix", () => {
     const mockConsole = createMockConsole();
 
-    const logger = new Logger(testNamespace, {}, {}, mockConsole);
+    const logger = new Logger(testNamespace, { console: mockConsole });
 
     logger.log("test message");
 
@@ -32,7 +32,7 @@ describe("Logger", function () {
   test("warns messages with namespace prefix", () => {
     const mockConsole = createMockConsole();
 
-    const warnger = new Logger(testNamespace, {}, {}, mockConsole);
+    const warnger = new Logger(testNamespace, { console: mockConsole });
 
     warnger.warn("test message");
 
@@ -45,7 +45,7 @@ describe("Logger", function () {
   test("errors messages with namespace prefix", () => {
     const mockConsole = createMockConsole();
 
-    const errorger = new Logger(testNamespace, {}, {}, mockConsole);
+    const errorger = new Logger(testNamespace, { console: mockConsole });
 
     errorger.error("test message");
     const message = mockConsole.error.mock.calls[0][0];
@@ -57,7 +57,7 @@ describe("Logger", function () {
   test("debugs messages with namespace prefix", () => {
     const mockConsole = createMockConsole();
 
-    const debugLogger = new Logger(testNamespace, {}, {}, mockConsole);
+    const debugLogger = new Logger(testNamespace, { console: mockConsole });
 
     debugLogger.debug("test message");
 
@@ -70,7 +70,7 @@ describe("Logger", function () {
   test("returns throwable errors", () => {
     const mockConsole = createMockConsole();
 
-    const debugLogger = new Logger(testNamespace, {}, {}, mockConsole);
+    const debugLogger = new Logger(testNamespace, { console: mockConsole });
 
     const error = debugLogger.thrown("test message");
 
@@ -81,7 +81,7 @@ describe("Logger", function () {
   test("returns throwable child errors", () => {
     const mockConsole = createMockConsole();
 
-    const debugLogger = new Logger(testNamespace, {}, {}, mockConsole);
+    const debugLogger = new Logger(testNamespace, { console: mockConsole });
 
     class TestError extends Error {
       name = "TestError";
